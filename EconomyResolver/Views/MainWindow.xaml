@@ -1,0 +1,95 @@
+﻿<Window x:Class="EconomyResolver.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:EconomyResolver.ViewModels"
+        Title="Экономические расчёты"
+        Width="1200"
+        Height="700"
+        MinWidth="640"
+        MinHeight="480"
+        Closing="Window_Closing"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Grid.ColumnSpan="2" Background="#FF007ACC" Margin="0,0,0,5">
+            <TextBlock Style="{DynamicResource HeaderStyle}" Text="Экономические расчёты" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+
+        <!-- Секция ввода -->
+        <ScrollViewer Grid.Row="1" Margin="10">
+            <StackPanel>
+                <Grid>
+                    <TextBlock VerticalAlignment="Center" Text="Введите данные:" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <Button FontSize="14" Content="Экспорт" Command="{Binding ЭкспортироватьДанныеКоманда}" HorizontalAlignment="Right"/>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding Данные}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,5,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Style="{DynamicResource InnerStyle}" HorizontalAlignment="Left" Text="{Binding Key}" ToolTip="{Binding Key}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                <TextBox Grid.Column="1" Text="{Binding Value.Значение}" ToolTip="{Binding Value.Значение}" MaxWidth="100" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock Style="{DynamicResource InnerStyle}" Grid.Column="2" Text="{Binding Value.ЕдиницаИзмерения}" ToolTip="{Binding Value.ЕдиницаИзмерения}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Секция вывода -->
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Margin="10">
+            <StackPanel>
+                <Grid>
+                    <TextBlock VerticalAlignment="Center" Text="Результаты:" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <Button Cursor="Hand" FontSize="14" Content="Экспорт" Command="{Binding ЭкспортироватьРезультатыКоманда}" HorizontalAlignment="Right"/>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding Результаты}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,5,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Style="{DynamicResource InnerStyle}" HorizontalAlignment="Left" Text="{Binding Key}" ToolTip="{Binding Key}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                <TextBox IsReadOnly="True" Grid.Column="1" Text="{Binding Value.Значение}" ToolTip="{Binding Value.Значение}" MaxWidth="100" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock Style="{DynamicResource InnerStyle}" Grid.Column="2" Text="{Binding Value.ЕдиницаИзмерения}" ToolTip="{Binding Value.ЕдиницаИзмерения}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Подвал -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Background="#FF007ACC" Margin="0,5,0,0">
+            <WrapPanel Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Cursor="Hand" Padding="4" FontSize="14" Content="Рассчитать" Command="{Binding ВыполнитьРасчетКоманда}" Margin="5"/>
+                <Button Cursor="Hand" Padding="4" FontSize="14" Content="Сбросить результаты" Command="{Binding СброситьРезультатыКоманда}" Margin="5"/>
+                <Button Cursor="Hand" Padding="4" FontSize="14" Content="Импорт" Command="{Binding ИмпортироватьДанныеКоманда}" Margin="5"/>
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</Window>
